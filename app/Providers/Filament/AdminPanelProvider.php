@@ -23,6 +23,8 @@ class AdminPanelProvider extends PanelProvider
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->brandLogo(asset('/image/logo-bengkel-ss.png'))
+            ->brandLogoHeight('3rem')
             ->default()
             ->id('admin')
             ->path('admin')
