@@ -2,17 +2,19 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\StokResource\Pages;
-use App\Filament\Resources\StokResource\RelationManagers;
-use App\Models\Stok;
 use Filament\Forms;
-use Filament\Forms\Form;
-use Filament\Resources\Resource;
+use App\Models\Stok;
 use Filament\Tables;
-use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Form;
 use Filament\Tables\Table;
+use Filament\Resources\Resource;
+use Filament\Forms\Components\Card;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Forms\Components\TextInput;
 use Illuminate\Database\Eloquent\Builder;
+use App\Filament\Resources\StokResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use App\Filament\Resources\StokResource\RelationManagers;
 
 class StokResource extends Resource
 {
@@ -24,7 +26,12 @@ class StokResource extends Resource
     {
         return $form
             ->schema([
-                //
+                Card::make()
+                ->schema([
+                    TextInput::make('idBarang')->required(),
+                    TextInput::make('namaBarang')->required(),
+                    TextInput::make('jumlah')->required(),
+                ])
             ]);
     }
 
@@ -33,15 +40,16 @@ class StokResource extends Resource
         return $table
             ->columns([
                 //
-                Tables\Columns\TextColumn::make('idBarang'),
-                Tables\Columns\TextColumn::make('namaBarang'),
-                Tables\Columns\TextColumn::make('jumlah'),
+                Tables\Columns\TextColumn::make('idBarang')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('namaBarang')->sortable()->searchable(),
+                Tables\Columns\TextColumn::make('jumlah')->sortable()->searchable(),
             ])
             ->filters([
                 //
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
